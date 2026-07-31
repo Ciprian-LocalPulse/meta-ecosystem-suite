@@ -1,42 +1,148 @@
 # MetaEcosystemSuite
 
+<p align="center">
+  <img src="assets/meta-ecosystem-suite.png" alt="MetaEcosystemSuite Banner" width="900">
+</p>
+
+<p align="center">
+
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Meta Graph API v19.0](https://img.shields.io/badge/Meta%20Graph%20API-v19.0-0866FF)](https://developers.facebook.com/)
 [![EU DSA Compliant](https://img.shields.io/badge/EU%20DSA-Compliant-003399)](https://ec.europa.eu/)
 
-**MetaEcosystemSuite** is an open-source enterprise suite designed to solve compliance, analytics migration, ad linting, and API monitoring challenges within the Meta (Facebook / Instagram) ecosystem.
+</p>
 
 ---
 
-## Key Features
+## Overview
 
-1. **DSA Compliance Auditor:** ETL pipeline converting Meta Ad Library API responses into the official EU Digital Services Act transparency schema.
-2. **Metrics Migrator:** Normalizes legacy metrics (`Reach` / `Impressions`) into Meta's unified reporting model (`Views` / `Viewers`).
-3. **Ad Policy Linter:** Pre-launch validator checking for AI disclosure tags, Policy 4.3 Personal Attribute violations, and Landing Page consistency.
-4. **Status Sentinel:** Real-time async monitor tracking Graph API latencies and outages with Slack notification support.
+**MetaEcosystemSuite** is an open-source enterprise framework designed to simplify development, regulatory compliance, analytics migration, advertisement validation, and infrastructure monitoring across the Meta (Facebook & Instagram) ecosystem.
+
+The suite provides a unified toolkit for developers, agencies, researchers, and organizations building applications around the Meta Graph API and Marketing API.
 
 ---
 
-## Quickstart
+# Core Modules
+
+### DSA Compliance Auditor
+
+Transforms Meta Ad Library API responses into datasets compatible with the European Union Digital Services Act transparency requirements.
+
+---
+
+### Metrics Migration Engine
+
+Automatically converts deprecated Meta metrics into the latest reporting schema while preserving historical analytical consistency.
+
+Examples:
+
+- Reach → Views
+- Impressions → Viewers
+
+---
+
+### Ad Policy Linter
+
+Performs static analysis before ad submission.
+
+Checks include:
+
+- AI disclosure compliance
+- Personal Attributes Policy (Meta Policy 4.3)
+- Landing page consistency
+- Advertising risk analysis
+
+---
+
+### Status Sentinel
+
+Continuously monitors Graph API endpoints.
+
+Features:
+
+- Latency monitoring
+- API availability
+- Health checks
+- Async monitoring
+- Automation-friendly output
+
+---
+
+# Quick Start
+
+Clone the repository
 
 ```bash
-# Clone the repository
-git clone [https://github.com/username/meta-ecosystem-suite.git](https://github.com/username/meta-ecosystem-suite.git)
+git clone https://github.com/Ciprian-LocalPulse/meta-ecosystem-suite.git
+
 cd meta-ecosystem-suite
+```
 
-# Install dependencies
+Install
+
+```bash
 pip install -e .
+```
 
-# Run Ad Policy Linter
-meta-suite lint --text "Suferi de anxietate? Cumpără acum!" --is-ai True
+Run Policy Linter
 
-# Normalize Metrics
-meta-suite normalize --impressions 15000 --reach 4500
+```bash
+meta-suite lint \
+    --text "Do you suffer from anxiety? Buy now!" \
+    --is-ai True
+```
+
+Normalize Metrics
+
+```bash
+meta-suite normalize \
+    --impressions 15000 \
+    --reach 4500
 ```
 
 ---
 
-## License
+# Repository Structure
 
-Distributed under the MIT License. See `LICENSE` for more information.
+```
+meta_ecosystem_suite/
+│
+├── compliance/
+├── metrics/
+├── policy_linter/
+├── status_sentinel/
+├── cli.py
+└── utils/
+```
+
+---
+
+# Technology Stack
+
+- Python 3.11+
+- Pydantic v2
+- HTTPX
+- Typer
+- Rich
+- Polars
+- APScheduler
+- Jinja2
+
+---
+
+# License
+
+This project is released under the **MIT License**.
+
+See the **LICENSE** file for complete license information.
+
+---
+
+## Copyright
+
+Copyright © 2026 Ciprian Stefan.
+
+Released under the MIT License.
+
+The MetaEcosystemSuite name, project branding, logos, documentation, and original artwork remain attributed to Ciprian Stefan.
