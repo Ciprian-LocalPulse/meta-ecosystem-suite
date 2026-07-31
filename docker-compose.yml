@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  meta-suite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # Example environment variables, replace with actual values or use .env file
+      META_APP_ID: "your_meta_app_id"
+      META_APP_SECRET: "your_meta_app_secret"
+      META_ACCESS_TOKEN: "your_meta_access_token"
+      SLACK_WEBHOOK_URL: "your_slack_webhook_url"
+      ALERT_EMAIL: "your_alert_email"
+    volumes:
+      - .:/app
+    # command: bash -c "while true; do sleep 1000; done" # Keep container running for debugging
+    # ports:
+    #   - "8000:8000" # Example if a web service were exposed
