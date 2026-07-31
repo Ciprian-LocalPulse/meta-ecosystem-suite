@@ -1,21 +1,128 @@
-MIT License
+PROPRIETARY SOFTWARE LICENSE AGREEMENT
+Version 1.0
+Copyright © 2026 Ciprian Stefan Plesca.
+All Rights Reserved.
 
-Copyright (c) 2024 Developer
+1. OWNERSHIP
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software, including but not limited to its source code, object code,
+algorithms, architecture, documentation, datasets, configuration files,
+examples, graphics, and all associated materials (collectively referred to
+as the "Software"), is the exclusive intellectual property of
+Ciprian Stefan Plesca.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The Software is protected by international copyright laws, intellectual
+property treaties, and all applicable national and international legislation.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. NO LICENSE GRANTED
+
+Except where explicit written permission has been granted by the copyright
+holder, no license is granted to any individual or organization.
+
+Possession of a copy of this Software does not grant ownership,
+copyright, patent rights, trademark rights, or any other intellectual
+property rights.
+
+3. PROHIBITED ACTIVITIES
+
+Without prior written authorization from the copyright holder, you may NOT:
+
+• Copy the Software in whole or in part.
+• Modify the Software.
+• Reverse engineer, decompile or disassemble the Software.
+• Redistribute the Software.
+• Publish the Software.
+• Mirror or archive the Software.
+• Sell or sublicense the Software.
+• Integrate the Software into commercial or non-commercial products.
+• Create derivative works.
+• Remove or alter copyright notices.
+• Use the Software for training artificial intelligence models.
+• Use any portion of the source code in another project.
+
+4. PERMITTED USE
+
+Unless otherwise agreed in writing, users may only:
+
+• View the public repository on GitHub.
+• Read the documentation.
+• Report bugs.
+• Submit suggestions.
+• Request permission for collaboration.
+
+No other rights are granted.
+
+5. COMMERCIAL USE
+
+Commercial use of any kind is strictly prohibited without a separate written
+license signed by Ciprian Stefan Plesca.
+
+6. DERIVATIVE WORKS
+
+Derivative works, forks, adaptations, ports, translations,
+or modified versions are prohibited without prior written authorization.
+
+7. OPEN SOURCE CONTRIBUTIONS
+
+Pull Requests do not transfer copyright ownership.
+
+By submitting contributions, contributors acknowledge that the repository
+owner retains the exclusive right to accept, reject, modify, or remove any
+contribution.
+
+Accepted contributions may be incorporated into the Software without any
+obligation of compensation unless otherwise agreed in writing.
+
+8. INTELLECTUAL PROPERTY
+
+All trademarks, branding, project names, logos, documentation,
+architecture, workflows, algorithms, and implementation details remain
+the exclusive property of the copyright holder.
+
+9. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND,
+EXPRESSED OR IMPLIED.
+
+10. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY DAMAGES,
+INCLUDING DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES ARISING FROM THE USE OF THIS SOFTWARE.
+
+11. TERMINATION
+
+Any violation of this Agreement immediately terminates any implied
+permission to access or use the Software.
+
+12. LEGAL ENFORCEMENT
+
+Unauthorized copying, redistribution, modification, commercial use,
+or creation of derivative works may constitute copyright infringement
+and may result in civil and/or criminal penalties under applicable law.
+
+The copyright holder reserves all legal remedies available under
+international copyright law.
+
+13. GOVERNING LAW
+
+This Agreement shall be governed by the applicable copyright and
+intellectual property laws of the jurisdiction in which the copyright
+holder resides, together with applicable international treaties,
+including the Berne Convention and the WIPO Copyright Treaty.
+
+14. CONTACT
+
+Licensing requests:
+
+Owner:
+Ciprian Stefan Plesca
+
+GitHub:
+https://github.com/Ciprian-LocalPulse
+
+Email:
+[Insert Contact Email]
+
+© 2026 Ciprian Stefan Plesca.
+All Rights Reserved.
