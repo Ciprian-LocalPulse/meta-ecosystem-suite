@@ -7,11 +7,15 @@ name = "meta-ecosystem-suite"
 version = "0.1.0"
 description = "Unified engine for Meta Graph API compliance, metrics migration, ad linting, and API health monitoring."
 readme = "README.md"
+
 authors = [
-    { name = "Developer", email = "dev@example.com" }
+    { name = "Ciprian Stefan" }
 ]
-license = { text = "MIT" }
+
+license = { file = "LICENSE" }
+
 requires-python = ">=3.11"
+
 dependencies = [
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
@@ -23,8 +27,19 @@ dependencies = [
     "apscheduler>=3.10.0"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.24.0"
+]
+
 [project.scripts]
 meta-suite = "meta_ecosystem_suite.cli:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["meta_ecosystem_suite"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
