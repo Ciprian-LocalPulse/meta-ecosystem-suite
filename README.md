@@ -16,10 +16,7 @@
 ---
 
 ## Overview
-
-**MetaEcosystemSuite** is an open-source enterprise framework designed to simplify development, regulatory compliance, analytics migration, advertisement validation, and infrastructure monitoring across the Meta (Facebook & Instagram) ecosystem.
-
-The suite provides a unified toolkit for developers, agencies, researchers, and organizations building applications around the Meta Graph API and Marketing API.
+**MetaEcosystemSuite** is an enterprise software framework designed to simplify development, regulatory compliance, analytics migration, advertisement validation, and infrastructure monitoring across the Meta (Facebook & Instagram) ecosystem.
 
 ---
 
@@ -131,18 +128,11 @@ meta_ecosystem_suite/
 
 ---
 
-# License
+Copyright © 2026 Ciprian Stefan Plesca.
 
-This project is released under the **MIT License**.
+All rights reserved.
 
-See the **LICENSE** file for complete license information.
-
----
-
-## Copyright
-
-Copyright © 2026 Ciprian Stefan.
-
-Released under the MIT License.
-
-The MetaEcosystemSuite name, project branding, logos, documentation, and original artwork remain attributed to Ciprian Stefan.
+The MetaEcosystemSuite name, architecture, documentation,
+source code, branding, graphics, algorithms and all related
+intellectual property remain the exclusive property of
+Ciprian Stefan Plesca.
