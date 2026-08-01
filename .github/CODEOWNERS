@@ -1,0 +1,28 @@
+# CODEOWNERS
+# These owners are automatically requested for review when a PR
+# touches matching paths. Later entries override earlier ones for
+# overlapping paths, per GitHub's matching rules.
+
+# Default owner for everything not matched below.
+* @Ciprian-LocalPulse
+
+# Credential handling & shared HTTP/retry layer — extra scrutiny,
+# since bugs here affect every module that calls Meta's APIs.
+/meta_ecosystem_suite/config.py    @Ciprian-LocalPulse
+/meta_ecosystem_suite/http.py      @Ciprian-LocalPulse
+/.env.example                      @Ciprian-LocalPulse
+
+# Data-driven rule/mapping files — changes here affect linting and
+# metrics-migration behavior directly, without a code review catching
+# the logic in a diff of `if` statements.
+/meta_ecosystem_suite/policy_linter/rules.py       @Ciprian-LocalPulse
+/meta_ecosystem_suite/metrics_migrator/mappings.py @Ciprian-LocalPulse
+
+# Governance & security docs.
+/SECURITY.md       @Ciprian-LocalPulse
+/CODE_OF_CONDUCT.md @Ciprian-LocalPulse
+/LICENSE           @Ciprian-LocalPulse
+
+# Packaging / dependency surface.
+/pyproject.toml @Ciprian-LocalPulse
+/uv.lock        @Ciprian-LocalPulse

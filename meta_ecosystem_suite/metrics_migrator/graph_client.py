@@ -2,11 +2,13 @@
 used to pull raw insights data for a given ad object.
 """
 
+import logging
 from typing import Any
 
-import httpx
-
 from meta_ecosystem_suite.config import settings
+from meta_ecosystem_suite.http import get_client, with_retries
+
+logger = logging.getLogger(__name__)
 
 
 class GraphAPIClient:
@@ -36,11 +38,18 @@ class GraphAPIClient:
             "date_preset": date_preset,
         }
         url = f"{self.base_url}/{object_id}/insights"
+        client = get_client()
 
-        async with httpx.AsyncClient() as client:
+        @with_retries()
+        async def _get():
             response = await client.get(url, params=params, timeout=15.0)
             response.raise_for_status()
-            payload = response.json()
+            return response
+
+        logger.debug("Fetching insights for object_id=%s", object_id)
+        response = await _get()
+        payload = response.json()
 
         data = payload.get("data", [])
+        logger.info("Insights fetch for object_id=%s returned %d row(s)", object_id, len(data))
         return data[0] if data else {}

@@ -6,9 +6,11 @@ status sentinel) behind a single `meta-suite` entrypoint.
 
 import asyncio
 import json
+import logging
 
 import typer
 from rich import print
+from rich.logging import RichHandler
 from rich.panel import Panel
 from rich.table import Table
 
@@ -25,6 +27,21 @@ app = typer.Typer(
     help="Unified Developer & Compliance Engine for the Meta Graph API, Marketing API & EU DSA standards.",
     add_completion=False,
 )
+
+
+@app.callback()
+def main(
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable debug-level logging (retries, pagination, probe detail)."
+    ),
+) -> None:
+    """Configure structured logging once, before any subcommand runs."""
+    logging.basicConfig(
+        level=logging.DEBUG if verbose else logging.INFO,
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler(rich_tracebacks=True, show_path=False)],
+    )
 
 dsa_app = typer.Typer(help="EU DSA ad-transparency ETL commands.")
 metrics_app = typer.Typer(help="Legacy -> unified metrics migration commands.")

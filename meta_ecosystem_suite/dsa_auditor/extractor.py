@@ -2,11 +2,13 @@
 records that will later be transformed into the EU DSA schema.
 """
 
+import logging
 from typing import Any
 
-import httpx
-
 from meta_ecosystem_suite.config import settings
+from meta_ecosystem_suite.http import get_client, with_retries
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_AD_FIELDS: list[str] = [
     "id",
@@ -48,17 +50,26 @@ class AdLibraryExtractor:
         }
 
         results: list[dict[str, Any]] = []
-        async with httpx.AsyncClient() as client:
-            next_url: str | None = url
-            next_params: dict[str, Any] | None = params
+        client = get_client()
+        next_url: str | None = url
+        next_params: dict[str, Any] | None = params
 
-            while next_url and len(results) < limit:
-                response = await client.get(next_url, params=next_params, timeout=20.0)
-                response.raise_for_status()
-                payload = response.json()
+        @with_retries()
+        async def get_page(page_url: str, page_params: dict[str, Any] | None):
+            response = await client.get(page_url, params=page_params, timeout=20.0)
+            response.raise_for_status()
+            return response
 
-                results.extend(payload.get("data", []))
-                next_url = payload.get("paging", {}).get("next")
-                next_params = None  # `next` already contains encoded query params
+        while next_url and len(results) < limit:
+            logger.debug("Fetching Ad Library page (collected so far: %d)", len(results))
+            response = await get_page(next_url, next_params)
+            payload = response.json()
+
+            page_records = payload.get("data", [])
+            results.extend(page_records)
+            logger.info("Ad Library page returned %d records (total=%d)", len(page_records), len(results))
+
+            next_url = payload.get("paging", {}).get("next")
+            next_params = None  # `next` already contains encoded query params
 
         return results[:limit]

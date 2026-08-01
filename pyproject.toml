@@ -22,23 +22,27 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "pydantic>=2.5.0",
-    "pydantic-settings>=2.1.0",
-    "httpx>=0.26.0",
-    "typer[all]>=0.9.0",
-    "rich>=13.7.0",
-    "polars>=0.20.0",
-    "jinja2>=3.1.0",
-    "apscheduler>=3.10.0",
+    "pydantic>=2.5.0,<3",
+    "pydantic-settings>=2.1.0,<3",
+    "httpx>=0.26.0,<1",
+    "typer>=0.9.0,<1",
+    "rich>=13.7.0,<14",
+    "polars>=0.20.0,<2",
+    "jinja2>=3.1.0,<4",
+    "apscheduler>=3.10.0,<4",
+    "tenacity>=8.2.0,<10",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.4.0",
-    "pytest-asyncio>=0.23.0",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.1.0",
-    "mypy>=1.7.0",
+    "pytest>=7.4.0,<9",
+    "pytest-asyncio>=0.23.0,<1",
+    "pytest-cov>=4.1.0,<6",
+    "respx>=0.20.0,<1",
+    "ruff>=0.1.0,<1",
+    "mypy>=1.7.0,<2",
+    "pip-audit>=2.7.0,<3",
+    "bandit>=1.7.0,<2",
 ]
 
 [project.urls]
@@ -59,3 +63,10 @@ target-version = "py311"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+# B113 (request without timeout) is handled centrally in meta_ecosystem_suite/http.py
+# via httpx.Timeout(...) on the shared client; individual call sites also pass an
+# explicit timeout, so this class of finding is a known false-positive pattern here.
+skips = ["B101"]
