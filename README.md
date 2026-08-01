@@ -1,5 +1,8 @@
 # MetaEcosystemSuite
 
+<p align="center">
+  <img src="assets/meta-ecosystem-suite.png" alt="MetaEcosystemSuite" width="800">
+</p>
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Meta Graph API v19.0](https://img.shields.io/badge/Meta%20Graph%20API-v19.0-0866FF)](https://developers.facebook.com/)
