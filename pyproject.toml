@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Unified engine for Meta Graph API compliance, metrics migration, ad policy linting, and API health monitoring."
 readme = "README.md"
 authors = [
-    { name = "Ciprian Stefan Plesca", email = "contact@localpulse.com" }
+    { name = "Ciprian Stefan Plesca", email = "contact@localpulse.dev" }
 ]
 license = { text = "Proprietary" }
 requires-python = ">=3.11"

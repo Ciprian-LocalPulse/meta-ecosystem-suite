@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from meta_ecosystem_suite.dsa_auditor.reporter import DSAReporter
 from meta_ecosystem_suite.dsa_auditor.schema import DSAAdRecord, DSAAdvertiser
@@ -6,14 +6,14 @@ from meta_ecosystem_suite.dsa_auditor.transformer import DSATransformer
 
 
 def make_record(**overrides) -> DSAAdRecord:
-    defaults = dict(
-        ad_id="123",
-        page_id="456",
-        advertiser=DSAAdvertiser(name="Test Advertiser"),
-        creative_text="Sample ad copy",
-        ad_creation_time=datetime.now(timezone.utc),
-        ad_delivery_start_time=datetime.now(timezone.utc),
-    )
+    defaults = {
+        "ad_id": "123",
+        "page_id": "456",
+        "advertiser": DSAAdvertiser(name="Test Advertiser"),
+        "creative_text": "Sample ad copy",
+        "ad_creation_time": datetime.now(UTC),
+        "ad_delivery_start_time": datetime.now(UTC),
+    }
     defaults.update(overrides)
     return DSAAdRecord(**defaults)
 

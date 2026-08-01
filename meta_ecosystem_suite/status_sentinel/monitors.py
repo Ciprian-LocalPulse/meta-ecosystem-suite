@@ -1,7 +1,6 @@
 """Individual health-check probes used by the Status Sentinel."""
 
 from dataclasses import dataclass
-from typing import Callable, Awaitable
 
 import httpx
 

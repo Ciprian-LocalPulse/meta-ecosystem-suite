@@ -1,5 +1,6 @@
 PROPRIETARY SOFTWARE LICENSE AGREEMENT
 Version 1.0
+
 Copyright © 2026 Ciprian Stefan Plesca.
 All Rights Reserved.
 
@@ -18,7 +19,6 @@ property treaties, and all applicable national and international legislation.
 
 Except where explicit written permission has been granted by the copyright
 holder, no license is granted to any individual or organization.
-
 Possession of a copy of this Software does not grant ownership,
 copyright, patent rights, trademark rights, or any other intellectual
 property rights.
@@ -27,28 +27,28 @@ property rights.
 
 Without prior written authorization from the copyright holder, you may NOT:
 
-• Copy the Software in whole or in part.
-• Modify the Software.
-• Reverse engineer, decompile or disassemble the Software.
-• Redistribute the Software.
-• Publish the Software.
-• Mirror or archive the Software.
-• Sell or sublicense the Software.
-• Integrate the Software into commercial or non-commercial products.
-• Create derivative works.
-• Remove or alter copyright notices.
-• Use the Software for training artificial intelligence models.
-• Use any portion of the source code in another project.
+- Copy the Software in whole or in part.
+- Modify the Software.
+- Reverse engineer, decompile or disassemble the Software.
+- Redistribute the Software.
+- Publish the Software.
+- Mirror or archive the Software.
+- Sell or sublicense the Software.
+- Integrate the Software into commercial or non-commercial products.
+- Create derivative works.
+- Remove or alter copyright notices.
+- Use the Software for training artificial intelligence models.
+- Use any portion of the source code in another project.
 
 4. PERMITTED USE
 
 Unless otherwise agreed in writing, users may only:
 
-• View the public repository on GitHub.
-• Read the documentation.
-• Report bugs.
-• Submit suggestions.
-• Request permission for collaboration.
+- View the public repository on GitHub.
+- Read the documentation.
+- Report bugs.
+- Submit suggestions.
+- Request permission for collaboration.
 
 No other rights are granted.
 
@@ -65,7 +65,6 @@ or modified versions are prohibited without prior written authorization.
 7. OPEN SOURCE CONTRIBUTIONS
 
 Pull Requests do not transfer copyright ownership.
-
 By submitting contributions, contributors acknowledge that the repository
 owner retains the exclusive right to accept, reject, modify, or remove any
 contribution.
@@ -100,7 +99,6 @@ permission to access or use the Software.
 Unauthorized copying, redistribution, modification, commercial use,
 or creation of derivative works may constitute copyright infringement
 and may result in civil and/or criminal penalties under applicable law.
-
 The copyright holder reserves all legal remedies available under
 international copyright law.
 
@@ -115,14 +113,9 @@ including the Berne Convention and the WIPO Copyright Treaty.
 
 Licensing requests:
 
-Owner:
-Ciprian Stefan Plesca
-
-GitHub:
-https://github.com/Ciprian-LocalPulse
-
-Email:
-contact@agentflow-enterprise.com
+Owner: Ciprian Stefan Plesca
+GitHub: https://github.com/Ciprian-LocalPulse
+Email: contact@agentflow-enterprise.com
 
 © 2026 Ciprian Stefan Plesca.
 All Rights Reserved.

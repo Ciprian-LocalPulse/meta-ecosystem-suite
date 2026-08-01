@@ -3,7 +3,7 @@ human-readable summary) from a batch of `DSAAdRecord` objects.
 """
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +18,7 @@ class DSAReporter:
         ai_flagged = [r for r in records if r.is_ai_generated and not r.ai_disclosure_present]
 
         return {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "total_records": len(records),
             "ai_disclosure_violations": len(ai_flagged),
             "records": [r.model_dump(mode="json") for r in records],

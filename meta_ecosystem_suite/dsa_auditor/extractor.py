@@ -8,6 +8,19 @@ import httpx
 
 from meta_ecosystem_suite.config import settings
 
+DEFAULT_AD_FIELDS: list[str] = [
+    "id",
+    "page_id",
+    "ad_creative_bodies",
+    "ad_creation_time",
+    "ad_delivery_start_time",
+    "ad_delivery_stop_time",
+    "impressions",
+    "spend",
+    "currency",
+    "demographic_distribution",
+]
+
 
 class AdLibraryExtractor:
     """Extracts raw records from the Meta Ad Library API."""
@@ -31,20 +44,7 @@ class AdLibraryExtractor:
             "ad_reached_countries": ",".join(ad_reached_countries or ["EU"]),
             "ad_active_status": "ALL",
             "limit": limit,
-            "fields": ",".join(
-                [
-                    "id",
-                    "page_id",
-                    "ad_creative_bodies",
-                    "ad_creation_time",
-                    "ad_delivery_start_time",
-                    "ad_delivery_stop_time",
-                    "impressions",
-                    "spend",
-                    "currency",
-                    "demographic_distribution",
-                ]
-            ),
+            "fields": ",".join(DEFAULT_AD_FIELDS),
         }
 
         results: list[dict[str, Any]] = []
