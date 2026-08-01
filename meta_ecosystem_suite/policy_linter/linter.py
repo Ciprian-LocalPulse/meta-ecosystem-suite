@@ -1,105 +1,84 @@
-import re
-from typing import Any, Dict, List
+"""Ad Policy & AI Content Linter.
+
+Runs pre-launch checks against ad copy for:
+  1. Missing AI-generated content disclosure
+  2. Meta Ads Policy 4.3 (personal attributes) violations
+  3. Unverified / exaggerated performance claims
+  4. Basic readability red flags
+
+The engine is deliberately data-driven (see `rules.py`) so new
+checks can be added without modifying `AdPolicyLinter` itself.
+"""
+
+from typing import Any
+
+from meta_ecosystem_suite.policy_linter.nlp_checker import NLPChecker
+from meta_ecosystem_suite.policy_linter.rules import (
+    PERSONAL_ATTRIBUTE_PATTERNS,
+    RULES,
+    UNVERIFIED_CLAIM_PHRASES,
+)
 
 
 class AdPolicyLinter:
-    """
-    Pre-flight linter for validating advertisements against
-    Meta Advertising Policies before publication.
-    """
+    """Pre-launch validator for Meta advertising creative."""
 
-    # Meta Advertising Policy 4.3 - Personal Attributes
-    SENSITIVE_PATTERNS = [
-        r"\byou\b.*\b(depressed|sick|ill|in debt|lonely|poor)\b",
-        r"\bare you\b.*\b(depressed|sick|ill|in debt|lonely|poor)\b",
-        r"\besti\b.*\b(depresiv|bolnav|indatorat|singur|sarac)\b",
-        r"\bești\b.*\b(depresiv|bolnav|îndatorat|singur|sărac)\b",
-        r"\bdo you suffer from\b",
-        r"\bsuferi de\b",
-        r"\bare you looking for treatment\b",
-        r"\bcauți un tratament pentru\b",
-    ]
+    def __init__(self) -> None:
+        self._checker = NLPChecker(
+            patterns=PERSONAL_ATTRIBUTE_PATTERNS,
+            phrases=UNVERIFIED_CLAIM_PHRASES,
+        )
 
     def lint_ad(
         self,
         ad_text: str,
         is_ai_generated: bool = False,
         ai_disclosed: bool = False,
-    ) -> Dict[str, Any]:
-        """
-        Validate advertisement text against a subset of Meta Ads policies.
+        landing_page_topic: str | None = None,
+        ad_topic: str | None = None,
+    ) -> dict[str, Any]:
+        violations: list[dict[str, Any]] = []
+        warnings: list[dict[str, Any]] = []
 
-        Returns
-        -------
-        passed : bool
-            True if no blocking policy violations were found.
-
-        risk_score : int
-            Simple heuristic score (0-100).
-
-        violations : list
-            Blocking policy violations.
-
-        warnings : list
-            Non-blocking recommendations.
-        """
-
-        violations: List[Dict[str, Any]] = []
-        warnings: List[Dict[str, Any]] = []
-
-        normalized_text = ad_text.lower()
-
-        # ------------------------------------------------------------------
-        # Meta AI Disclosure
-        # ------------------------------------------------------------------
+        # 1. AI disclosure requirement
         if is_ai_generated and not ai_disclosed:
-            violations.append(
-                {
-                    "rule": "META_AI_DISCLOSURE_REQUIRED",
-                    "severity": "HIGH",
-                    "message": (
-                        "This advertisement contains AI-generated content "
-                        "without the required Meta AI disclosure."
-                    ),
-                }
-            )
+            rule = RULES["META_AI_DISCLOSURE_REQUIRED"]
+            violations.append({"rule": rule.code, "severity": rule.severity.value, "message": rule.description})
 
-        # ------------------------------------------------------------------
-        # Meta Policy 4.3 - Personal Attributes
-        # ------------------------------------------------------------------
-        for pattern in self.SENSITIVE_PATTERNS:
-            if re.search(pattern, normalized_text, re.IGNORECASE):
+        # 2. Personal attributes (Policy 4.3)
+        attribute_matches = self._checker.scan_patterns(ad_text)
+        if attribute_matches:
+            rule = RULES["META_PERSONAL_ATTRIBUTES_4_3"]
+            for match in attribute_matches:
                 violations.append(
                     {
-                        "rule": "META_PERSONAL_ATTRIBUTES_4_3",
-                        "severity": "CRITICAL",
-                        "message": (
-                            "The advertisement directly references sensitive "
-                            "personal attributes."
-                        ),
+                        "rule": rule.code,
+                        "severity": rule.severity.value,
+                        "message": f"{rule.description} Matched snippet: \"{match.snippet}\"",
                     }
                 )
-                break
 
-        # ------------------------------------------------------------------
-        # Unverified Claims
-        # ------------------------------------------------------------------
-        if "100% guaranteed" in normalized_text or "100% garantat" in normalized_text:
+        # 3. Unverified claims
+        claim_matches = self._checker.scan_phrases(ad_text)
+        if claim_matches:
+            rule = RULES["META_UNVERIFIED_CLAIMS"]
             warnings.append(
                 {
-                    "rule": "META_UNVERIFIED_CLAIMS",
-                    "severity": "MEDIUM",
-                    "message": (
-                        "Claims such as '100% guaranteed' may increase the "
-                        "likelihood of automated review or delivery limitations."
-                    ),
+                    "rule": rule.code,
+                    "severity": rule.severity.value,
+                    "message": f"{rule.description} Phrases found: {', '.join(claim_matches)}",
                 }
             )
 
-        risk_score = max(
-            0,
-            100 - (len(violations) * 35 + len(warnings) * 10),
-        )
+        # 4. Landing page / ad topic mismatch (simple keyword overlap heuristic)
+        if landing_page_topic and ad_topic:
+            lp_words = set(landing_page_topic.lower().split())
+            ad_words = set(ad_topic.lower().split())
+            if not (lp_words & ad_words):
+                rule = RULES["META_LANDING_PAGE_MISMATCH"]
+                warnings.append({"rule": rule.code, "severity": rule.severity.value, "message": rule.description})
+
+        risk_score = max(0, 100 - (len(violations) * 35 + len(warnings) * 10))
 
         return {
             "passed": len(violations) == 0,

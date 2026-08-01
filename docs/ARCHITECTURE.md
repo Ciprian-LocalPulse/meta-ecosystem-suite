@@ -1,63 +1,69 @@
-# System Architecture Blueprint
+# Architecture
 
-This document outlines the architectural design of the MetaEcosystemSuite, detailing its components, their interactions, and the underlying technologies.
+MetaEcosystemSuite is organized as four independent modules that share a
+single configuration layer (`config.py`) and are exposed through one
+CLI entrypoint (`cli.py`). Each module can be imported and used as a
+standalone library without pulling in the others.
 
-## Overview
+## Design principles
 
-The MetaEcosystemSuite is a unified Python repository comprising four main modules, each addressing a specific aspect of Meta's ecosystem: DSA Compliance, Metrics Normalization, Ad Policy Linting, and API Monitoring. The suite is designed for modularity, scalability, and ease of deployment.
+- **Data-driven rules over hard-coded logic.** The policy linter's rule
+  set (`policy_linter/rules.py`) is plain data, not branching logic —
+  new checks can be added without touching the engine.
+- **Async-first for I/O.** Anything that talks to the network (Graph
+  API client, Ad Library extractor, Status Sentinel probes) is async,
+  so batch operations and concurrent health checks don't block on
+  each other.
+- **Fail soft on malformed data.** The DSA transformer skips malformed
+  records instead of aborting a whole batch — useful when pulling
+  thousands of ad records from a live, occasionally inconsistent API.
+- **Schema validation via Pydantic.** Both the app configuration and
+  the DSA ad-record schema are Pydantic models, giving you validation
+  errors at the boundary instead of silent type coercion bugs deeper
+  in the pipeline.
 
-## Core Components
+## Module map
 
-### 1. DSA Compliance Auditor
+```
+                         ┌─────────────┐
+                         │   cli.py    │  Typer entrypoint (meta-suite)
+                         └──────┬──────┘
+           ┌───────────────────┼───────────────────┬─────────────────┐
+           ▼                   ▼                   ▼                 ▼
+   ┌───────────────┐   ┌───────────────┐   ┌───────────────┐  ┌───────────────┐
+   │  dsa_auditor   │   │ metrics_      │   │ policy_linter │  │ status_       │
+   │                │   │ migrator      │   │               │  │ sentinel      │
+   ├───────────────┤   ├───────────────┤   ├───────────────┤  ├───────────────┤
+   │ extractor.py   │   │ graph_client  │   │ rules.py      │  │ monitors.py   │
+   │ transformer.py │   │ normalizer.py │   │ nlp_checker.py│  │ sentinel.py   │
+   │ schema.py      │   │ mappings.py   │   │ linter.py     │  │ notifier.py   │
+   │ reporter.py    │   └───────────────┘   └───────────────┘  └───────────────┘
+   └───────────────┘
+           │
+           ▼
+   config.py (Pydantic Settings, shared by all modules)
+```
 
-- **Purpose:** Extracts data from Meta Ad Library API and transforms it into a format compliant with EU Digital Services Act (DSA) transparency requirements.
-- **Key Sub-components:**
-    - `extractor.py`: Handles API calls to Meta Ad Library.
-    - `transformer.py`: Maps raw API data to the EU DSA database schema.
-    - `schema.py`: Defines Pydantic models for DSA database schema validation.
-    - `reporter.py`: Generates JSON/PDF reports for DSA compliance.
+## Data flow: DSA Auditor
 
-### 2. Metrics Migrator
+1. `AdLibraryExtractor` paginates through the Meta Ad Library API for a
+   given search term, handling Meta's cursor-based pagination.
+2. `DSATransformer` maps each raw record onto a `DSAAdRecord` model,
+   parsing Meta's range-obfuscated impressions/spend fields and
+   discarding anything that fails validation.
+3. `DSAReporter` aggregates the validated records into a JSON report,
+   flagging any AI-generated ads missing a disclosure label.
 
-- **Purpose:** Normalizes legacy Meta advertising metrics (e.g., Reach, Impressions) into the unified Meta reporting model (e.g., Views, Viewers).
-- **Key Sub-components:**
-    - `graph_client.py`: Wrapper for Meta Graph API v19.0+.
-    - `normalizer.py`: Engine for converting and calculating new metrics.
-    - `mappings.py`: Dictionary defining field mappings between old and new metrics.
+## Data flow: Metrics Migrator
 
-### 3. Ad Policy Linter
+`GraphAPIClient` pulls raw insights for an ad object; `MetricsNormalizer`
+maps legacy fields (`impressions`, `reach`) onto the unified schema
+(`total_views`, `unique_viewers`, `view_frequency`) using the table in
+`mappings.py`, which is also exposed publicly so downstream code can
+build its own field-name translations.
 
-- **Purpose:** Provides pre-launch validation for advertisements against Meta's ad policies and AI guidelines.
-- **Key Sub-components:**
-    - `rules.py`: Defines various Meta policy rules (e.g., Policy 4.3).
-    - `nlp_checker.py`: Utilizes NLP and regex for text compliance checks.
-    - `linter.py`: Main engine for ad audit and policy enforcement.
+## Data flow: Status Sentinel
 
-### 4. Status Sentinel
-
-- **Purpose:** Monitors Meta API latency and endpoint status in real-time, dispatching alerts for outages or degradations.
-- **Key Sub-components:**
-    - `monitors.py`: Contains logic for latency and status checks.
-    - `sentinel.py`: Asynchronous health monitoring engine.
-    - `notifier.py`: Handles dispatching alerts via Slack or email.
-
-## Technology Stack
-
-- **Language:** Python 3.11+
-- **Dependency Management:** Poetry / Hatch (pyproject.toml)
-- **CLI Framework:** Typer / Rich
-- **Configuration Management:** Pydantic BaseSettings
-- **HTTP Client:** httpx (async)
-- **Data Processing:** Polars
-- **Templating:** Jinja2
-- **Scheduler:** APScheduler
-- **Containerization:** Docker, Docker Compose
-- **CI/CD:** GitHub Actions
-
-## Data Flow and Interactions
-
-(Diagram or detailed flow description would go here, illustrating how data moves between modules and external Meta APIs.)
-
-## Deployment
-
-The suite is designed for containerized deployment using Docker, ensuring consistent environments across development, testing, and production. GitHub Actions facilitate automated testing, linting, and publishing to PyPI.
+`monitors.py` defines a registry of named HTTP probes. `sentinel.py`
+runs them concurrently with `asyncio.gather`, and `notifier.py` posts a
+formatted Slack message only when at least one probe is not `HEALTHY`.

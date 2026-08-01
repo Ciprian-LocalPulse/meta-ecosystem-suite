@@ -1,49 +1,22 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.pyd
-*.pyo
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-dist/
+*.py[cod]
+*$py.class
 *.egg-info/
-*.egg
-
-# Editors
-.vscode/
-.idea/
-
-# Environments
+.eggs/
+dist/
+build/
 .env
-.venv
-env/
+.venv/
 venv/
-
-# Testing
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
 htmlcov/
-
-# MyPy
-.mypy_cache/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# OS generated files
-.DS_Store
-thumbs.db
-
-# Docker
-docker-compose.override.yml
-
-# Logs
 *.log
-
-# Pydantic-settings
-.env
+.DS_Store
+.idea/
+.vscode/
+*.sqlite3
+reports/*.json
+reports/*.pdf

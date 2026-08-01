@@ -16,80 +16,39 @@ Your support helps fund:
 
 ---
 
-# Support Options
+## Support Options
 
-## Bank Transfer (EUR)
+### Bank Transfer (EUR)
 
-**Account Holder**
+| Field | Value |
+| --- | --- |
+| Account Holder | Ciprian Stefan Plesca |
+| IBAN | `BE83 9679 1975 8915` |
+| BIC / SWIFT | `TRWIBEB1XXX` |
+| Bank | Wise Europe SA, Rue du Trône 100, 1050 Brussels, Belgium |
 
-Ciprian Stefan Plesca
+### Bank Transfer (USD)
 
-**IBAN**
+| Field | Value |
+| --- | --- |
+| Account Holder | Ciprian Stefan Plesca |
+| Account Type | Checking |
+| Routing Number | `026073150` |
+| Account Number | `8314225367` |
+| SWIFT / BIC | `CMFGUS33` |
+| Bank | Community Federal Savings Bank, 89-16 Jamaica Avenue, Woodhaven, NY 11421, United States |
 
-`BE83 9679 1975 8915`
+### PayPal
 
-**BIC / SWIFT**
+[paypal.me/agentflowenterprise](https://paypal.me/agentflowenterprise)
 
-`TRWIBEB1XXX`
-
-**Bank**
-
-Wise Europe SA  
-Rue du Trône 100  
-1050 Brussels  
-Belgium
-
----
-
-## Bank Transfer (USD)
-
-**Account Holder**
-
-Ciprian Stefan Plesca
-
-**Account Type**
-
-Checking
-
-**Routing Number**
-
-`026073150`
-
-**Account Number**
-
-`8314225367`
-
-**SWIFT / BIC**
-
-`CMFGUS33`
-
-**Bank**
-
-Community Federal Savings Bank
-
-89-16 Jamaica Avenue
-
-Woodhaven, NY 11421
-
-United States
-
----
-
-## PayPal
-
-https://paypal.me/agentflowenterprise
-
----
-
-## Bitcoin (BTC)
+### Bitcoin (BTC)
 
 ```
 bc1qf3yy0w8z37rwavxpu38wem3yffpanw7wzj32qj
 ```
 
----
-
-## Ethereum (ETH)
+### Ethereum (ETH)
 
 ```
 0x27d9a6a5b8507e6031bb044319410da96222d402
@@ -97,13 +56,11 @@ bc1qf3yy0w8z37rwavxpu38wem3yffpanw7wzj32qj
 
 ---
 
-# Before Sending Funds
+## Before Sending Funds
 
 For your security, always verify that you are visiting the official repository:
 
-**Official Repository**
-
-https://github.com/Ciprian-LocalPulse/meta-ecosystem-suite
+**Official Repository:** [github.com/Ciprian-LocalPulse/meta-ecosystem-suite](https://github.com/Ciprian-LocalPulse/meta-ecosystem-suite)
 
 Please verify:
 
@@ -111,15 +68,13 @@ Please verify:
 - payment information matches this document
 - no third-party mirrors or forks have altered the funding details
 
-The project owner will **never** privately contact you requesting donations or payments.
+> The project owner will **never** privately contact you requesting donations or payments.
 
 ---
 
-# Other Ways to Support
+## Other Ways to Support
 
-Financial contributions are appreciated but never required.
-
-You can also support the project by:
+Financial contributions are appreciated but never required. You can also support the project by:
 
 - ⭐ Starring the repository
 - 🍴 Following project updates
@@ -131,7 +86,7 @@ You can also support the project by:
 
 ---
 
-# Licensing
+## Licensing
 
 MetaEcosystemSuite is distributed under a **Proprietary Software License**.
 
@@ -143,30 +98,20 @@ Financial support **does not** grant:
 - sublicensing rights
 - permission to create derivative works
 
-All intellectual property remains the exclusive property of:
-
-**Ciprian Stefan Plesca**
+All intellectual property remains the exclusive property of **Ciprian Stefan Plesca**.
 
 ---
 
-# Contact
+## Contact
 
 For licensing, commercial partnerships, enterprise deployments, or sponsorship inquiries:
 
-**Owner**
-
-Ciprian Stefan Plesca
-
-**GitHub**
-
-https://github.com/Ciprian-LocalPulse
-
-**Email**
-
-contact@agentflow-enterprise.com
+| Field | Value |
+| --- | --- |
+| Owner | Ciprian Stefan Plesca |
+| GitHub | [github.com/Ciprian-LocalPulse](https://github.com/Ciprian-LocalPulse) |
+| Email | contact@agentflow-enterprise.com |
 
 ---
 
-© 2026 Ciprian Stefan Plesca.
-
-**All Rights Reserved.**
+© 2026 Ciprian Stefan Plesca. **All Rights Reserved.**

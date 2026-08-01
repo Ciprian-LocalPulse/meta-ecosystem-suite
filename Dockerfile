@@ -1,14 +1,19 @@
-FROM python:3.11-slim-buster
+FROM python:3.12-slim AS base
 
 WORKDIR /app
 
-COPY pyproject.toml README.md ./  # Copy pyproject.toml and README.md
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install build dependencies and then the package itself
-RUN pip install --no-cache-dir hatchling && \
-    pip install --no-cache-dir -e .
+COPY pyproject.toml README.md ./
+COPY meta_ecosystem_suite ./meta_ecosystem_suite
+
+RUN pip install --no-cache-dir .
 
 COPY . .
 
-# Assuming the CLI entrypoint is defined in pyproject.toml as meta-suite
+ENV PYTHONUNBUFFERED=1
+
 ENTRYPOINT ["meta-suite"]
+CMD ["--help"]
