@@ -64,3 +64,28 @@ def test_dsa_audit_command_writes_report(tmp_path):
     )
     assert result.exit_code == 0
     assert output_path.exists()
+
+
+@respx.mock
+def test_dsa_audit_command_supports_tiktok_platform(tmp_path):
+    respx.post("https://open.tiktokapis.com/v2/research/adlib/ad/query/").mock(
+        return_value=httpx.Response(200, json={"data": {"has_more": False, "ads": []}})
+    )
+    output_path = tmp_path / "report.json"
+    result = runner.invoke(
+        app,
+        ["dsa", "audit", "coffee", "--platform", "tiktok", "--output", str(output_path)],
+    )
+    assert result.exit_code == 0
+    assert "tiktok" in result.stdout.lower()
+    assert output_path.exists()
+
+
+def test_dsa_audit_command_rejects_unknown_platform(tmp_path):
+    output_path = tmp_path / "report.json"
+    result = runner.invoke(
+        app,
+        ["dsa", "audit", "coffee", "--platform", "google_ads", "--output", str(output_path)],
+    )
+    assert result.exit_code == 1
+    assert "Unknown ad platform" in result.stdout

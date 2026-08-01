@@ -18,6 +18,13 @@ class Settings(BaseSettings):
     META_ACCESS_TOKEN: str = Field(default="")
     META_GRAPH_VERSION: str = Field(default="v19.0")
 
+    # TikTok Commercial Content API (Research API v2) credentials.
+    # Unlike Meta, TikTok's client access token goes in an Authorization
+    # header, not a query param — see platforms/tiktok/client.py.
+    TIKTOK_CLIENT_KEY: str = Field(default="")
+    TIKTOK_CLIENT_SECRET: str = Field(default="")
+    TIKTOK_ACCESS_TOKEN: str = Field(default="")
+
     # Notifications & webhooks
     SLACK_WEBHOOK_URL: str = Field(default="")
     ALERT_EMAIL: str = Field(default="")

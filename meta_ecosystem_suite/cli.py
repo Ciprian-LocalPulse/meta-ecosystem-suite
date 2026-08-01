@@ -14,11 +14,10 @@ from rich.logging import RichHandler
 from rich.panel import Panel
 from rich.table import Table
 
-from meta_ecosystem_suite.dsa_auditor.extractor import AdLibraryExtractor
 from meta_ecosystem_suite.dsa_auditor.reporter import DSAReporter
-from meta_ecosystem_suite.dsa_auditor.transformer import DSATransformer
 from meta_ecosystem_suite.metrics_migrator.graph_client import GraphAPIClient
 from meta_ecosystem_suite.metrics_migrator.normalizer import MetricsNormalizer
+from meta_ecosystem_suite.platforms import available_platforms, run_dsa_audit
 from meta_ecosystem_suite.policy_linter.linter import AdPolicyLinter
 from meta_ecosystem_suite.status_sentinel.sentinel import MetaStatusSentinel
 
@@ -101,18 +100,33 @@ def dsa_audit(
     countries: str = typer.Option("EU", help="Comma-separated country codes."),
     limit: int = typer.Option(100, help="Max number of ad records to pull."),
     output: str = typer.Option("reports/dsa_report.json", help="Output path for the JSON report."),
+    platform: str = typer.Option(
+        "meta", help=f"Ad platform to audit. One of: {', '.join(available_platforms())}."
+    ),
 ) -> None:
     """Extract, transform, and report on ads matching `search_terms` per the EU DSA schema."""
 
     async def _run():
-        extractor = AdLibraryExtractor()
-        raw_ads = await extractor.fetch_ads(search_terms, ad_reached_countries=countries.split(","), limit=limit)
-        records = DSATransformer.transform_batch(raw_ads)
+        records = await run_dsa_audit(
+            platform, search_terms, countries=countries.split(","), limit=limit
+        )
         path = DSAReporter.write_json(records, output)
         return records, path
 
-    records, path = asyncio.run(_run())
-    print(Panel(f"Processed [bold]{len(records)}[/bold] ad record(s).\nReport written to: [bold]{path}[/bold]", title="DSA Auditor"))
+    try:
+        records, path = asyncio.run(_run())
+    except ValueError as exc:
+        print(f"[bold red]{exc}[/bold red]")
+        raise typer.Exit(code=1) from exc
+
+    print(
+        Panel(
+            f"Platform: [bold]{platform}[/bold]\n"
+            f"Processed [bold]{len(records)}[/bold] ad record(s).\n"
+            f"Report written to: [bold]{path}[/bold]",
+            title="DSA Auditor",
+        )
+    )
 
 
 @sentinel_app.command("check")

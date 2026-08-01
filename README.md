@@ -22,7 +22,7 @@ Meta's advertising stack keeps shifting under developers' feet: the Graph API re
 
 ## Key Features
 
-1. **DSA Compliance Auditor** — an ETL pipeline that pulls records from the Meta Ad Library API and converts them into the EU DSA ad-transparency schema (advertiser identity, targeting criteria, spend/impression ranges, AI-disclosure status).
+1. **DSA Compliance Auditor** — a multi-platform ETL pipeline that pulls records from an ad-transparency repository (Meta's Ad Library API, TikTok's Commercial Content API) and converts them into a common EU DSA ad-transparency schema (advertiser identity, targeting criteria, spend/impression ranges, AI-disclosure status). Adding a new platform is a matter of registering a client + transformer pair in `platforms/` — nothing else in the codebase needs to change.
 2. **Metrics Migrator** — normalizes legacy insights fields (`impressions`, `reach`) into Meta's unified reporting model (`views`, `viewers`), with a full bidirectional field-mapping table.
 3. **Ad Policy Linter** — a pre-launch validator that checks ad copy against Meta's Policy 4.3 (personal attributes), AI-generated content disclosure requirements, and common exaggerated-claim patterns.
 4. **Status Sentinel** — an async monitor that checks Graph API / Marketing API / Ad Library latency and health concurrently, with Slack alerting on degradation.
@@ -64,8 +64,14 @@ meta-suite metrics normalize --impressions 15000 --reach 4500
 ### Pull an EU DSA transparency report
 
 ```bash
+# Meta (default platform)
 meta-suite dsa audit "example brand" --countries EU --output reports/dsa_report.json
+
+# TikTok — requires an approved Commercial Content API application (see .env.example)
+meta-suite dsa audit "example brand" --platform tiktok --countries FR --output reports/tiktok_dsa_report.json
 ```
+
+Run `meta-suite dsa audit --help` to see which platforms are currently registered.
 
 ### Check API health
 
@@ -81,11 +87,15 @@ meta-suite sentinel check
 meta_ecosystem_suite/
 ├── config.py              # Pydantic Settings (env-driven)
 ├── cli.py                 # Unified Typer CLI entrypoint
-├── dsa_auditor/            # EU DSA transparency ETL
+├── http.py                 # Shared pooled HTTP client + retry/backoff
+├── dsa_auditor/            # EU DSA transparency ETL (Meta-specific extractor/transformer/schema)
+├── platforms/              # Multi-platform registry (meta, tiktok) — see below
 ├── metrics_migrator/        # Legacy -> unified metrics schema
 ├── policy_linter/          # Ad policy & AI disclosure linter
 └── status_sentinel/         # Async API health monitor
 ```
+
+`platforms/` is what makes `dsa audit --platform tiktok` work: each subpackage (`platforms/meta/`, `platforms/tiktok/`) registers a client + transformer pair against the platform-agnostic `DSAAdRecord` schema in `dsa_auditor/schema.py`. `platforms.run_dsa_audit(platform, ...)` is the single entrypoint the CLI calls; it doesn't know or care which platform-specific classes exist behind that name.
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for a deeper walkthrough of how the modules fit together.
 

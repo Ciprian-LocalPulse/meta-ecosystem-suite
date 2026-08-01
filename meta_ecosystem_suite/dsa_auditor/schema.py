@@ -40,3 +40,4 @@ class DSAAdRecord(BaseModel):
     targeting: DSATargetingCriteria = Field(default_factory=DSATargetingCriteria)
     is_ai_generated: bool = False
     ai_disclosure_present: bool = False
+    platform: str = "meta"

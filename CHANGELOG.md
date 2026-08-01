@@ -10,6 +10,23 @@ once it reaches a 1.0 release.
 
 ### Added
 
+- **Multi-platform DSA auditor.** New `meta_ecosystem_suite/platforms/`
+  package: a structural `AdLibraryClient` protocol + a small registry
+  (`register_platform` / `get_platform` / `available_platforms`) so
+  the DSA auditor isn't hard-wired to Meta anymore.
+  - `platforms/tiktok/`: a real client for TikTok's Commercial
+    Content API (Research API v2) — POST-based, `search_id` cursor
+    pagination, Bearer-token auth in the `Authorization` header
+    (notably safer than Meta's query-param token pattern), plus a
+    transformer mapping TikTok's ad shape onto the same `DSAAdRecord`
+    schema Meta records use.
+  - `platforms/meta/`: thin registration wrapper around the existing
+    `AdLibraryExtractor` / `DSATransformer` — no behavior change.
+  - CLI: `meta-suite dsa audit ... --platform tiktok` (defaults to
+    `meta` for backward compatibility). Unknown platform names exit
+    with a clear error instead of an unhandled traceback.
+  - `DSAAdRecord` gained a `platform` field (defaults to `"meta"`) so
+    reports record provenance when auditing multiple platforms.
 - Shared, connection-pooled `httpx.AsyncClient` and a `tenacity`-based
   retry/backoff decorator (`meta_ecosystem_suite/http.py`), replacing
   the previous pattern of creating a new client per request with no
